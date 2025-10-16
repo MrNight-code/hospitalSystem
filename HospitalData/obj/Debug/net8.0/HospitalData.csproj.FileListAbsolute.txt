@@ -12,3 +12,4 @@
 /mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.pdb
 /mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.genruntimeconfig.cache
 /mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/ref/HospitalData.dll
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.sourcelink.json

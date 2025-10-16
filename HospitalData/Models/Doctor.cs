@@ -25,4 +25,5 @@ public partial class Doctor
 
     public virtual User? User { get; set; }
     public virtual Specialty? Specialty { get; set; }
+    
 }

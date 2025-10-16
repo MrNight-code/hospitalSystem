@@ -21,6 +21,8 @@ builder.Services.AddSingleton<UserSessionService>();
 
 builder.Services.AddScoped<IStaffService, StaffService>();
 
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+
 var app = builder.Build();
 
 
