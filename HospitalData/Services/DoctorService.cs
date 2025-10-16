@@ -90,18 +90,16 @@ namespace HospitalData.Services
             // ");
 
             // OPCIÓN 2: Inserción directa usando EF Core (si no hay SP o prefieres esta forma)
-        var newHistory = new MedicalHistory
-        {
-            PatientId = pacienteId,
-            DoctorId = doctorId,
-            Description = "Consulta de rutina",
-            // --- SOLUCIÓN ---
-            VisitDate = Date.ToDateTime(TimeOnly.MinValue), // <--- CORREGIDO
-            // ----------------
-            Diagnosis = "Sin diagnostico",
-            Treatment = "Reposo",
-            Notes = "N/A"
-        };
+            var nuevaEntrada = new MedicalHistory
+            {
+                PatientId = pacienteId,
+                DoctorId = doctorId,
+                Description = $"Diagnóstico: {diagnostico}",
+                VisitDate = DateTime.Now,
+                Diagnosis = diagnostico,
+                Treatment = tratamiento,
+                Notes = notas
+            };
 
             _context.MedicalHistories.Add(nuevaEntrada);
             await _context.SaveChangesAsync();

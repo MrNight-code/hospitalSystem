@@ -59,12 +59,12 @@
                             <div class="col-md-6">
                                 <p><strong>ID:</strong> @_paciente.PatientId</p>
                                 <p><strong>Nombre Completo:</strong> @_paciente.FirstName @_paciente.LastName</p>
-                                <p><strong>Fecha de Nacimiento:</strong> @_paciente.DateOfBirth?.ToString("dd/MM/yyyy")</p>
+                                <p><strong>Fecha de Nacimiento:</strong> @_paciente.Dob?.ToString("dd/MM/yyyy")</p>
                             </div>
                             <div class="col-md-6">
                                 <p><strong>Género:</strong> @_paciente.Gender</p>
                                 <p><strong>Teléfono:</strong> @(_paciente.Phone ?? "N/A")</p>
-                                <p><strong>Email:</strong> @(_paciente.Email ?? "N/A")</p>
+                                <p><strong>Dirección:</strong> @(_paciente.Address ?? "N/A")</p>
                             </div>
                         </div>
                     </div>

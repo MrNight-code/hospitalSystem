@@ -86,7 +86,7 @@
                                         <th>Fecha de Nacimiento</th>
                                         <th>Género</th>
                                         <th>Teléfono</th>
-                                        <th>Email</th>
+                                        <th>Dirección</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -96,10 +96,10 @@
                                         <tr>
                                             <td><strong>@paciente.PatientId</strong></td>
                                             <td>@paciente.FirstName @paciente.LastName</td>
-                                            <td>@paciente.DateOfBirth?.ToString("dd/MM/yyyy")</td>
+                                            <td>@paciente.Dob?.ToString("dd/MM/yyyy")</td>
                                             <td>@paciente.Gender</td>
                                             <td>@(paciente.Phone ?? "N/A")</td>
-                                            <td>@(paciente.Email ?? "N/A")</td>
+                                            <td>@(paciente.Address ?? "N/A")</td>
                                             <td>
                                                 <button class="btn btn-sm btn-primary me-1"
                                                         @onclick="() => VerHistorial(paciente.PatientId)">
