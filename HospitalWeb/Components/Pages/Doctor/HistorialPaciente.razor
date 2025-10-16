@@ -1,0 +1,263 @@
+@page "/doctor/historial-paciente"
+@using HospitalData.Models
+@using HospitalData.Services
+@using Microsoft.AspNetCore.Components
+@inject UserSessionService SessionService
+@inject NavigationManager NavigationManager
+@inject IDoctorService DoctorService
+
+<PageTitle>Historial Clínico</PageTitle>
+
+<Autorizacion RolRequerido="Doctor">
+    
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h1>📋 Historial Clínico</h1>
+                <p>Consulta y registra información del historial médico del paciente</p>
+            </div>
+            <button class="btn btn-secondary" @onclick="Regresar">
+                <i class="bi bi-arrow-left"></i> Regresar
+            </button>
+        </div>
+        
+        <hr />
+
+        @if (_pacienteId == null)
+        {
+            <div class="alert alert-warning" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> No se ha especificado un paciente. 
+                <a href="/doctor/buscar-paciente" class="alert-link">Buscar paciente</a>
+            </div>
+        }
+        else if (_cargando)
+        {
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando historial clínico...</p>
+            </div>
+        }
+        else if (_mensajeError != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> @_mensajeError
+            </div>
+        }
+        else
+        {
+            @* SECCIÓN: INFORMACIÓN DEL PACIENTE *@
+            @if (_paciente != null)
+            {
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-person-badge"></i> Información del Paciente</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>ID:</strong> @_paciente.PatientId</p>
+                                <p><strong>Nombre Completo:</strong> @_paciente.FirstName @_paciente.LastName</p>
+                                <p><strong>Fecha de Nacimiento:</strong> @_paciente.DateOfBirth?.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Género:</strong> @_paciente.Gender</p>
+                                <p><strong>Teléfono:</strong> @(_paciente.Phone ?? "N/A")</p>
+                                <p><strong>Email:</strong> @(_paciente.Email ?? "N/A")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @* SECCIÓN: REGISTRAR NUEVO HISTORIAL *@
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Registrar Nueva Entrada</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Diagnóstico:</strong></label>
+                        <input type="text" class="form-control" @bind="_nuevoDiagnostico" placeholder="Ingrese el diagnóstico" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Tratamiento:</strong></label>
+                        <textarea class="form-control" rows="3" @bind="_nuevoTratamiento" placeholder="Describa el tratamiento"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Notas Adicionales:</strong></label>
+                        <textarea class="form-control" rows="2" @bind="_nuevasNotas" placeholder="Observaciones adicionales (opcional)"></textarea>
+                    </div>
+                    <button class="btn btn-success" @onclick="RegistrarHistorial" disabled="@_guardando">
+                        @if (_guardando)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            <span>Guardando...</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-save me-2"></i>
+                            <span>Guardar Entrada</span>
+                        }
+                    </button>
+                </div>
+            </div>
+
+            @* SECCIÓN: HISTORIAL MÉDICO EXISTENTE *@
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-clock-history"></i> Historial Médico</h5>
+                </div>
+                <div class="card-body">
+                    @if (_historial == null || !_historial.Any())
+                    {
+                        <div class="alert alert-info" role="alert">
+                            <i class="bi bi-info-circle-fill"></i> No hay entradas de historial médico registradas para este paciente.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10%;">ID</th>
+                                        <th style="width: 15%;">Fecha</th>
+                                        <th style="width: 20%;">Diagnóstico</th>
+                                        <th style="width: 30%;">Tratamiento</th>
+                                        <th style="width: 25%;">Notas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var entrada in _historial.OrderByDescending(h => h.VisitDate))
+                                    {
+                                        <tr>
+                                            <td>@entrada.HistoryId</td>
+                                            <td>@entrada.VisitDate?.ToString("dd/MM/yyyy")</td>
+                                            <td>@entrada.Diagnosis</td>
+                                            <td>@entrada.Treatment</td>
+                                            <td>@(entrada.Notes ?? "N/A")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        
+    </div>
+
+</Autorizacion>
+
+@code {
+    // Parámetro de query string para el ID del paciente
+    [SupplyParameterFromQuery(Name = "pacienteId")]
+    public int? _pacienteId { get; set; }
+
+    // Datos del paciente y su historial
+    private Patient? _paciente;
+    private List<MedicalHistory>? _historial;
+
+    // Formulario para nueva entrada
+    private string? _nuevoDiagnostico;
+    private string? _nuevoTratamiento;
+    private string? _nuevasNotas;
+
+    // Estados
+    private bool _cargando = true;
+    private bool _guardando = false;
+    private string? _mensajeError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_pacienteId.HasValue)
+        {
+            await CargarDatosPaciente();
+        }
+        else
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task CargarDatosPaciente()
+    {
+        try
+        {
+            _cargando = true;
+            _mensajeError = null;
+
+            // Llamadas reales al servicio para obtener datos del paciente y su historial
+            _paciente = await DoctorService.ObtenerPacienteAsync(_pacienteId!.Value);
+            _historial = await DoctorService.ObtenerHistorialMedicoAsync(_pacienteId.Value);
+
+            if (_paciente == null)
+            {
+                _mensajeError = "No se encontró el paciente especificado.";
+            }
+        }
+        catch (Exception ex)
+        {
+            _mensajeError = $"Error al cargar datos del paciente: {ex.Message}";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task RegistrarHistorial()
+    {
+        try
+        {
+            _guardando = true;
+            _mensajeError = null;
+
+            // Validaciones
+            if (string.IsNullOrWhiteSpace(_nuevoDiagnostico) || string.IsNullOrWhiteSpace(_nuevoTratamiento))
+            {
+                _mensajeError = "El diagnóstico y el tratamiento son obligatorios.";
+                return;
+            }
+
+            var doctorId = SessionService.CurrentUser?.UserId;
+            if (doctorId == null)
+            {
+                _mensajeError = "No se pudo identificar al doctor actual.";
+                return;
+            }
+
+            // Llamada real al servicio para registrar historial
+            await DoctorService.RegistrarHistorialAsync(
+                _pacienteId!.Value, 
+                doctorId.Value, 
+                _nuevoDiagnostico, 
+                _nuevoTratamiento, 
+                _nuevasNotas
+            );
+
+            // Limpiar formulario y recargar
+            _nuevoDiagnostico = null;
+            _nuevoTratamiento = null;
+            _nuevasNotas = null;
+            
+            await CargarDatosPaciente();
+        }
+        catch (Exception ex)
+        {
+            _mensajeError = $"Error al guardar historial: {ex.Message}";
+        }
+        finally
+        {
+            _guardando = false;
+        }
+    }
+
+    private void Regresar()
+    {
+        NavigationManager.NavigateTo("/doctor/buscar-paciente");
+    }
+}

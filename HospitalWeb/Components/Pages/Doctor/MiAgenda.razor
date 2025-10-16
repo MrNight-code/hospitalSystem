@@ -1,0 +1,170 @@
+@page "/doctor/mi-agenda"
+@using HospitalData.Models
+@using HospitalData.Services
+@inject UserSessionService SessionService
+@inject IDoctorService DoctorService
+
+<PageTitle>Mi Agenda</PageTitle>
+
+<Autorizacion RolRequerido="Doctor">
+    
+    <div class="container-fluid">
+        <h1>📅 Mi Agenda</h1>
+        <p>Visualiza y gestiona tus citas programadas</p>
+        
+        <hr />
+
+        @if (_cargando)
+        {
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando tu agenda...</p>
+            </div>
+        }
+        else if (_mensajeError != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> @_mensajeError
+            </div>
+        }
+        else if (_citas == null || !_citas.Any())
+        {
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle-fill"></i> No tienes citas programadas en este momento.
+            </div>
+        }
+        else
+        {
+            @* SECCIÓN: RESUMEN DE CITAS *@
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card text-bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Citas Hoy</h5>
+                            <h2 class="card-text">@_citas.Count(c => c.AppointmentDate.Date == DateTime.Today)</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-bg-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Confirmadas</h5>
+                            <h2 class="card-text">@_citas.Count(c => c.Status == "Confirmada")</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-bg-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Pendientes</h5>
+                            <h2 class="card-text">@_citas.Count(c => c.Status == "Pendiente")</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* SECCIÓN: LISTA DE CITAS *@
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-calendar-week"></i> Tus Próximas Citas</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID Cita</th>
+                                    <th>Fecha y Hora</th>
+                                    <th>Paciente</th>
+                                    <th>Teléfono</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cita in _citas.OrderBy(c => c.AppointmentDate))
+                                {
+                                    <tr>
+                                        <td>@cita.AppointmentId</td>
+                                        <td>@cita.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>@cita.PatientFirstName @cita.PatientLastName</td>
+                                        <td>@(cita.PatientPhone ?? "N/A")</td>
+                                        <td>
+                                            <span class="badge @ObtenerClaseEstado(cita.Status)">
+                                                @cita.Status
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" @onclick="() => VerDetallesCita(cita.AppointmentId)">
+                                                <i class="bi bi-eye"></i> Ver
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+
+</Autorizacion>
+
+@code {
+    // Lista de citas obtenidas de la vista VwDoctorAgendaSummary
+    private List<VwDoctorAgendaSummary>? _citas;
+    
+    // Estados de carga y errores
+    private bool _cargando = true;
+    private string? _mensajeError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _cargando = true;
+            
+            // Obtener el ID del doctor autenticado desde la sesión
+            var doctorId = SessionService.CurrentUser?.UserId;
+            
+            if (doctorId == null)
+            {
+                _mensajeError = "No se pudo identificar al doctor autenticado.";
+                return;
+            }
+            
+            // Llamada real al servicio para obtener la agenda del doctor
+            _citas = await DoctorService.ObtenerAgendaAsync(doctorId.Value);
+        }
+        catch (Exception ex)
+        {
+            _mensajeError = $"Error al cargar la agenda: {ex.Message}";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private string ObtenerClaseEstado(string? estado)
+    {
+        return estado switch
+        {
+            "Confirmada" => "bg-success",
+            "Pendiente" => "bg-warning text-dark",
+            "Cancelada" => "bg-danger",
+            "Completada" => "bg-secondary",
+            _ => "bg-info"
+        };
+    }
+
+    private void VerDetallesCita(int citaId)
+    {
+        // TODO: Implementar navegación a detalle de cita o modal
+        Console.WriteLine($"Ver detalles de cita: {citaId}");
+    }
+}

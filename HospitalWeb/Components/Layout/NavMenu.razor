@@ -1,4 +1,4 @@
-﻿@using HospitalData.Services
+﻿<!--  -->@using HospitalData.Services
 @inject UserSessionService SessionService
 @inject NavigationManager NavigationManager
 @implements IDisposable
@@ -49,11 +49,38 @@
             }
             @if (SessionService.CurrentUser.RoleName == "Doctor")
             {
+                @* Portal Médico - Menú desplegable para Doctores *@
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="panel-doctor">
-                        <span class="bi bi-clipboard2-pulse-fill" aria-hidden="true"></span> Panel Doctor
-                    </NavLink>
+                    <button class="nav-link btn btn-link text-start w-100" @onclick="ToggleDoctorMenu">
+                        <span class="bi bi-clipboard2-pulse-fill" aria-hidden="true"></span> Portal Médico
+                        <span class="bi @(doctorMenuExpanded ? "bi-chevron-up" : "bi-chevron-down") float-end"></span>
+                    </button>
                 </div>
+
+                @* Submenús del Portal Médico - Solo visible cuando está expandido *@
+                @if (doctorMenuExpanded)
+                {
+                    <div class="nav-item px-3 ps-5">
+                        <NavLink class="nav-link" href="doctor/mi-agenda">
+                            <span class="bi bi-calendar-check" aria-hidden="true"></span> Mi Agenda
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3 ps-5">
+                        <NavLink class="nav-link" href="doctor/buscar-paciente">
+                            <span class="bi bi-search" aria-hidden="true"></span> Buscar Paciente
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3 ps-5">
+                        <NavLink class="nav-link" href="doctor/historial-paciente">
+                            <span class="bi bi-file-medical" aria-hidden="true"></span> Historial Clínico
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3 ps-5">
+                        <NavLink class="nav-link" href="doctor/prescripciones-activas">
+                            <span class="bi bi-clipboard2-heart" aria-hidden="true"></span> Prescripciones Activas
+                        </NavLink>
+                    </div>
+                }
             }
             @* --- FIN DEL NUEVO BLOQUE --- *@
 
@@ -84,6 +111,9 @@
 </div>
 
 @code {
+    // Variable de estado para controlar la expansión del menú del Portal Médico
+    private bool doctorMenuExpanded = false;
+
     protected override void OnInitialized()
     {
         SessionService.OnChange += StateHasChanged;
@@ -93,6 +123,12 @@
     {
         SessionService.Logout();
         NavigationManager.NavigateTo("/login");
+    }
+
+    // Método para alternar la visibilidad del menú desplegable del Portal Médico
+    private void ToggleDoctorMenu()
+    {
+        doctorMenuExpanded = !doctorMenuExpanded;
     }
 
     public void Dispose()

@@ -89,6 +89,29 @@
     display: block;
 }
 
+/* Estilos para botones del menú desplegable */
+.nav-item button.nav-link {
+    padding: 0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.nav-item button.nav-link:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* Estilos para submenús (con indentación) */
+.nav-item.ps-5 {
+    padding-left: 3rem !important;
+}
+
+.nav-item.ps-5 ::deep .nav-link {
+    font-size: 0.85rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+}
+
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;
