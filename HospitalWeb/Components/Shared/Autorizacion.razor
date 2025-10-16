@@ -1,0 +1,25 @@
+@using HospitalData.Services
+@inject UserSessionService SessionService
+
+@if (UsuarioAutorizado())
+{
+    @ChildContent
+}
+
+@code {
+    // Parámetro para especificar qué rol se requiere para ver el contenido.
+    [Parameter]
+    public string RolRequerido { get; set; } = string.Empty;
+
+    // Parámetro que representa el contenido que queremos proteger.
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private bool UsuarioAutorizado()
+    {
+        // La lógica del "guardia de seguridad":
+        // 1. ¿Hay alguien logueado? (CurrentUser no es nulo)
+        // 2. ¿El rol del usuario logueado es el que se requiere?
+        return SessionService.CurrentUser != null && SessionService.CurrentUser.RoleName == RolRequerido;
+    }
+}

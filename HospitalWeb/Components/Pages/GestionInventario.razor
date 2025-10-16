@@ -1,0 +1,158 @@
+@page "/gestion-inventario"
+@using HospitalData.Services
+@using HospitalData.DTOs
+@inject IStaffService StaffService
+
+<PageTitle>Gestión de Inventario</PageTitle>
+
+<Autorizacion RolRequerido="Administrativo">
+
+    <h1>Gestión de Inventario de Medicamentos</h1>
+    <hr />
+
+    <div class="row">
+        @* COLUMNA IZQUIERDA: CREAR Y ACTUALIZAR *@
+        <div class="col-md-4">
+            <h4>Añadir Nuevo Medicamento</h4>
+            <EditForm Model="_nuevoMedicamento" OnValidSubmit="HandleCrearMedicamento">
+                <DataAnnotationsValidator />
+                <div class="mb-3">
+                    <label>Nombre:</label>
+                    <InputText class="form-control" @bind-Value="_nuevoMedicamento.Name" />
+                    <ValidationMessage For="@(() => _nuevoMedicamento.Name)" />
+                </div>
+                <div class="mb-3">
+                    <label>Descripción:</label>
+                    <InputTextArea class="form-control" @bind-Value="_nuevoMedicamento.Description" />
+                </div>
+                <div class="mb-3">
+                    <label>Cantidad Inicial:</label>
+                    <InputNumber class="form-control" @bind-Value="_nuevoMedicamento.InitialQuantity" />
+                </div>
+                <button type="submit" class="btn btn-primary">Añadir al Inventario</button>
+            </EditForm>
+
+            <hr />
+
+            <h4>Añadir Stock</h4>
+            <EditForm Model="_stockUpdate" OnValidSubmit="HandleActualizarStock">
+                <DataAnnotationsValidator />
+                <div class="mb-3">
+                    <label>Medicamento:</label>
+                    <InputSelect class="form-select" @bind-Value="_stockUpdate.MedicationId">
+                        <option value="0">-- Seleccione un medicamento --</option>
+                        @if (_inventario != null)
+                        {
+                            @foreach (var item in _inventario)
+                            {
+                                <option value="@item.MedicationId">@item.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => _stockUpdate.MedicationId)" />
+                </div>
+                <div class="mb-3">
+                    <label>Cantidad a Añadir:</label>
+                    <InputNumber class="form-control" @bind-Value="_stockUpdate.QuantityToAdd" />
+                    <ValidationMessage For="@(() => _stockUpdate.QuantityToAdd)" />
+                </div>
+                <button type="submit" class="btn btn-secondary">Actualizar Stock</button>
+            </EditForm>
+        </div>
+
+        @* COLUMNA DERECHA: LISTA DE INVENTARIO *@
+        <div class="col-md-8">
+            <h4>Inventario Actual</h4>
+            @if (_inventario == null)
+            {
+                <p><em>Cargando inventario...</em></p>
+            }
+            else
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Stock</th>
+                            <th>Última Actualización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in _inventario)
+                        {
+                            <tr>
+                                <td><strong>@item.Name</strong><br/><small>@item.Description</small></td>
+                                <td>@item.Quantity</td>
+                                <td>@item.LastUpdated.ToString("g")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(_successMessage)) { <div class="alert alert-success mt-3">@_successMessage</div> }
+    @if (!string.IsNullOrEmpty(_errorMessage)) { <div class="alert alert-danger mt-3">@_errorMessage</div> }
+
+</Autorizacion>
+
+@code {
+    private List<InventoryDto>? _inventario;
+    private CreateMedicationDto _nuevoMedicamento = new();
+    private UpdateStockDto _stockUpdate = new();
+    private string? _errorMessage;
+    private string? _successMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarInventario();
+    }
+
+    private async Task HandleCrearMedicamento()
+    {
+        await HandleAction(async () => {
+            await StaffService.CrearMedicamentoAsync(_nuevoMedicamento);
+            _nuevoMedicamento = new();
+            return "Medicamento añadido exitosamente.";
+        });
+    }
+
+    private async Task HandleActualizarStock()
+    {
+        await HandleAction(async () => {
+            await StaffService.ActualizarStockAsync(_stockUpdate);
+            var medName = _inventario?.FirstOrDefault(m => m.MedicationId == _stockUpdate.MedicationId)?.Name;
+            _stockUpdate = new();
+            return $"Stock de '{medName}' actualizado exitosamente.";
+        });
+    }
+
+    // Helper para evitar repetir código de try/catch y mensajes
+    private async Task HandleAction(Func<Task<string>> action)
+    {
+        _errorMessage = null;
+        _successMessage = null;
+        try
+        {
+            _successMessage = await action();
+            await CargarInventario();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error: {ex.Message}";
+        }
+    }
+
+    private async Task CargarInventario()
+    {
+        try
+        {
+            _inventario = await StaffService.ObtenerInventarioAsync();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"No se pudo cargar el inventario: {ex.Message}";
+        }
+    }
+}

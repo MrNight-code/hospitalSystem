@@ -1,0 +1,81 @@
+@page "/calendario-citas"
+@using HospitalData.DTOs
+@using HospitalData.Services
+@inject IStaffService StaffService
+
+<PageTitle>Calendario de Citas</PageTitle>
+
+<Autorizacion RolRequerido="Administrativo">
+
+    <h1>Calendario General de Citas</h1>
+    <p>Esta es una vista de todas las citas programadas en el sistema.</p>
+    <hr />
+
+    @if (_citas == null)
+    {
+        <p><em>Cargando citas...</em></p>
+    }
+    else if (!_citas.Any())
+    {
+        <p>No hay citas programadas.</p>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Paciente</th>
+                    <th>Doctor</th>
+                    <th>Especialidad</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cita in _citas)
+                {
+                    <tr>
+                        <td>@cita.AppointmentDate.ToString("dd/MM/yyyy hh:mm tt")</td>
+                        <td>@cita.PatientFirstName @cita.PatientLastName</td>
+                        <td>@cita.DoctorFirstName @cita.DoctorLastName</td>
+                        <td>@cita.DoctorSpecialty</td>
+                        <td>
+                            <span class="badge @GetStatusBadgeClass(cita.Status)">
+                                @cita.Status
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</Autorizacion>
+
+@code {
+    private List<AppointmentDetailDto>? _citas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _citas = await StaffService.ObtenerCitasAsync();
+        }
+        catch (Exception ex)
+        {
+            // Handle potential errors, e.g., log them
+            Console.WriteLine($"Error fetching appointments: {ex.Message}");
+        }
+    }
+
+    private string GetStatusBadgeClass(string? status)
+    {
+        return status switch
+        {
+            "Programada" => "bg-primary",
+            "Finalizada" => "bg-success",
+            "Cancelada" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}

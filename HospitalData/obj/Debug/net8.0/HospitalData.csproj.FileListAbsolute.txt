@@ -1,0 +1,14 @@
+/mnt/night_projects/UCB/hospital_system/HospitalData/bin/Debug/net8.0/HospitalData.deps.json
+/mnt/night_projects/UCB/hospital_system/HospitalData/bin/Debug/net8.0/HospitalData.runtimeconfig.json
+/mnt/night_projects/UCB/hospital_system/HospitalData/bin/Debug/net8.0/HospitalData.dll
+/mnt/night_projects/UCB/hospital_system/HospitalData/bin/Debug/net8.0/HospitalData.pdb
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.csproj.AssemblyReference.cache
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.GeneratedMSBuildEditorConfig.editorconfig
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.AssemblyInfoInputs.cache
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.AssemblyInfo.cs
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.csproj.CoreCompileInputs.cache
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.dll
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/refint/HospitalData.dll
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.pdb
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/HospitalData.genruntimeconfig.cache
+/mnt/night_projects/UCB/hospital_system/HospitalData/obj/Debug/net8.0/ref/HospitalData.dll

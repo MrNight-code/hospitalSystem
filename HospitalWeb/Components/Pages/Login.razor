@@ -1,0 +1,67 @@
+@page "/login"
+@using HospitalData.Services
+@inject IAuthService AuthService
+@inject UserSessionService SessionService 
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>Login</PageTitle>
+
+<h3>Iniciar Sesión</h3>
+
+<div class="card" style="width: 24rem;">
+    <div class="card-body">
+        <div class="form-group mb-3">
+            <label for="username">Usuario:</label>
+            <input id="username" class="form-control" @bind="_username" />
+        </div>
+        <div class="form-group mb-3">
+            <label for="password">Contraseña:</label>
+            <input id="password" type="password" class="form-control" @bind="_password" />
+        </div>
+
+        <button class="btn btn-primary" @onclick="HandleLogin">Ingresar</button>
+
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <div class="alert alert-danger mt-3" role="alert">
+                @_errorMessage
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string _username = string.Empty;
+    private string _password = string.Empty;
+    private string? _errorMessage;
+
+    private async Task HandleLogin()
+    {
+        _errorMessage = null; // Limpiar errores previos
+        try
+        {
+            var user = await AuthService.LoginAsync(_username, _password);
+
+            if (user != null)
+            {
+                // ¡Login exitoso!
+                // Por ahora, solo redirigiremos a la página principal.
+                // En el futuro, aquí guardaríamos la sesión del usuario.
+                SessionService.Login(user);
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                // Credenciales inválidas
+                _errorMessage = "Usuario o contraseña incorrectos.";
+            }
+        }
+        catch (Exception ex)
+        {
+            // Error de conexión u otro problema
+            _errorMessage = "Ocurrió un error al intentar iniciar sesión.";
+            Console.WriteLine(ex.Message); // Log para el desarrollador
+        }
+    }
+}

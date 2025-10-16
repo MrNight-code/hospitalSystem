@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/mnt/night_projects/UCB/hospital_system/HospitalWeb/obj/Debug/net8.0/scopedcss/projectbundle/HospitalWeb.bundle.scp.css",
+      "PackagePath": "staticwebassets/HospitalWeb.bundle.scp.css"
+    },
+    {
+      "Id": "/mnt/night_projects/UCB/hospital_system/HospitalWeb/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/mnt/night_projects/UCB/hospital_system/HospitalWeb/wwwroot/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/mnt/night_projects/UCB/hospital_system/HospitalWeb/wwwroot/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/mnt/night_projects/UCB/hospital_system/HospitalWeb/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.HospitalWeb.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.HospitalWeb.props",
+      "PackagePath": "build\\HospitalWeb.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.HospitalWeb.props",
+      "PackagePath": "buildMultiTargeting\\HospitalWeb.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.HospitalWeb.props",
+      "PackagePath": "buildTransitive\\HospitalWeb.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

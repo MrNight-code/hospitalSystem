@@ -1,0 +1,127 @@
+@page "/gestion-pacientes"
+@using HospitalData.Models
+@using HospitalData.Services
+@using HospitalData.DTOs
+@inject IStaffService StaffService
+
+<PageTitle>Gestión de Pacientes</PageTitle>
+
+<Autorizacion RolRequerido="Administrativo">
+
+    <h1>Gestión de Pacientes</h1>
+    <p>Desde aquí puedes ver la lista de pacientes existentes y registrar nuevos en el sistema.</p>
+    <hr />
+
+    <h4>Registrar Nuevo Paciente</h4>
+    <EditForm Model="_nuevoPaciente" OnValidSubmit="HandleCrearPaciente" FormName="CrearPacienteForm">
+        <DataAnnotationsValidator />
+        <div class="card" style="width: 32rem;">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Nombres:</label>
+                    <InputText class="form-control" @bind-Value="_nuevoPaciente.FirstName" />
+                    <ValidationMessage For="@(() => _nuevoPaciente.FirstName)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Apellidos:</label>
+                    <InputText class="form-control" @bind-Value="_nuevoPaciente.LastName" />
+                    <ValidationMessage For="@(() => _nuevoPaciente.LastName)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email:</label>
+                    <InputText type="email" class="form-control" @bind-Value="_nuevoPaciente.Email" />
+                    <ValidationMessage For="@(() => _nuevoPaciente.Email)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Teléfono (Opcional):</label>
+                    <InputText class="form-control" @bind-Value="_nuevoPaciente.Phone" />
+                </div>
+                <button type="submit" class="btn btn-primary">Crear Paciente</button>
+                <p class="form-text mt-2">El nuevo usuario se creará con la contraseña por defecto: "defaultpassword".</p>
+            </div>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(_successMessage))
+    {
+        <div class="alert alert-success mt-3">@_successMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger mt-3">@_errorMessage</div>
+    }
+
+    <hr />
+
+    <h4>Pacientes Registrados</h4>
+    @if (_listaPacientes == null)
+    {
+        <p><em>Cargando lista de pacientes...</em></p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var paciente in _listaPacientes)
+                {
+                    <tr>
+                        <td>@paciente.PatientId</td>
+                        <td>@paciente.FirstName</td>
+                        <td>@paciente.LastName</td>
+                        <td>@paciente.Phone</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</Autorizacion>
+
+@code {
+    private List<Patient>? _listaPacientes;
+    private CreatePatientDto _nuevoPaciente = new();
+    private string? _errorMessage;
+    private string? _successMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarPacientes();
+    }
+
+    private async Task HandleCrearPaciente()
+    {
+        _errorMessage = null;
+        _successMessage = null;
+        try
+        {
+            await StaffService.CrearPacienteAsync(_nuevoPaciente);
+            _successMessage = "¡Paciente creado exitosamente!";
+            _nuevoPaciente = new(); 
+            await CargarPacientes(); 
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error al crear el paciente: {ex.Message}";
+        }
+    }
+
+    private async Task CargarPacientes()
+    {
+        try
+        {
+            _listaPacientes = await StaffService.ObtenerPacientesAsync();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"No se pudo cargar la lista de pacientes: {ex.Message}";
+        }
+    }
+}

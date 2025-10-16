@@ -1,0 +1,146 @@
+@page "/gestion-doctores"
+@using HospitalData.Models
+@using HospitalData.Services
+@using HospitalData.DTOs
+@inject IStaffService StaffService
+
+<PageTitle>Gestión de Doctores</PageTitle>
+
+<Autorizacion RolRequerido="Administrativo">
+
+    <h1>Gestión de Doctores</h1>
+    <p>Desde aquí puedes ver la lista de doctores existentes y registrar nuevos en el sistema.</p>
+
+    <hr />
+
+    @* SECCIÓN PARA AÑADIR UN NUEVO DOCTOR *@
+    <h4>Registrar Nuevo Doctor</h4>
+
+    @* EditForm es un componente de Blazor que nos ayuda a manejar formularios y validaciones. *@
+    <EditForm Model="_nuevoDoctor" OnValidSubmit="HandleCrearDoctor" FormName="CrearDoctorForm">
+        <DataAnnotationsValidator /> @* Activa la validación basada en los atributos del DTO *@
+
+        <div class="card" style="width: 32rem;">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Nombres:</label>
+                    <InputText class="form-control" @bind-Value="_nuevoDoctor.FirstName" />
+                    <ValidationMessage For="@(() => _nuevoDoctor.FirstName)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Apellidos:</label>
+                    <InputText class="form-control" @bind-Value="_nuevoDoctor.LastName" />
+                    <ValidationMessage For="@(() => _nuevoDoctor.LastName)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email:</label>
+                    <InputText type="email" class="form-control" @bind-Value="_nuevoDoctor.Email" />
+                    <ValidationMessage For="@(() => _nuevoDoctor.Email)" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Teléfono (Opcional):</label>
+                    <InputText class="form-control" @bind-Value="_nuevoDoctor.Phone" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">ID de Especialidad:</label>
+                    <InputNumber class="form-control" @bind-Value="_nuevoDoctor.SpecialtyID" />
+                    <ValidationMessage For="@(() => _nuevoDoctor.SpecialtyID)" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Crear Doctor</button>
+                <p class="form-text mt-2">El nuevo usuario se creará con la contraseña por defecto: "defaultpassword".</p>
+            </div>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(_successMessage))
+    {
+        <div class="alert alert-success mt-3">@_successMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger mt-3">@_errorMessage</div>
+    }
+
+    <hr />
+
+    @* SECCIÓN PARA MOSTRAR LA LISTA DE DOCTORES *@
+    <h4>Doctores Registrados</h4>
+    @if (_listaDoctores == null)
+    {
+        <p><em>Cargando lista de doctores...</em></p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Teléfono</th>
+                    <th>Especialidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doctor in _listaDoctores)
+                {
+                    <tr>
+                        <td>@doctor.DoctorId</td>
+                        <td>@doctor.FirstName</td>
+                        <td>@doctor.LastName</td>
+                        <td>@doctor.Phone</td>
+                        <td>@doctor.Specialty?.SpecialtyName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</Autorizacion>
+
+
+@code {
+    private List<Doctor>? _listaDoctores;
+    private CreateDoctorDto _nuevoDoctor = new();
+    private string? _errorMessage;
+    private string? _successMessage;
+
+    // Se ejecuta cuando la página se carga por primera vez.
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarDoctores();
+    }
+
+    // Método para manejar el envío del formulario.
+    private async Task HandleCrearDoctor()
+    {
+        _errorMessage = null;
+        _successMessage = null;
+
+        try
+        {
+            await StaffService.CrearDoctorAsync(_nuevoDoctor);
+            _successMessage = "¡Doctor creado exitosamente!";
+            _nuevoDoctor = new(); // Resetea el formulario
+            await CargarDoctores(); // Recarga la lista para mostrar el nuevo doctor
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error al crear el doctor: {ex.Message}";
+        }
+    }
+
+    // Helper para no repetir código.
+    private async Task CargarDoctores()
+    {
+        try
+        {
+            _listaDoctores = await StaffService.ObtenerDoctoresAsync();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"No se pudo cargar la lista de doctores: {ex.Message}";
+        }
+    }
+}
