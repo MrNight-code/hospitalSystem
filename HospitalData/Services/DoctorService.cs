@@ -81,11 +81,11 @@ namespace HospitalData.Services
         {
             // OPCIÓN 1: Si existe un Stored Procedure específico para esto, úsalo
             // Ejemplo: await _context.Database.ExecuteSqlInterpolatedAsync($@"
-            //     EXEC SP_InsertMedicalHistory 
-            //         @PatientID = {pacienteId}, 
-            //         @DoctorID = {doctorId}, 
-            //         @Diagnosis = {diagnostico}, 
-            //         @Treatment = {tratamiento}, 
+            //     EXEC SP_InsertMedicalHistory
+            //         @PatientID = {pacienteId},
+            //         @DoctorID = {doctorId},
+            //         @Diagnosis = {diagnostico},
+            //         @Treatment = {tratamiento},
             //         @Notes = {notas}
             // ");
 
@@ -112,7 +112,7 @@ namespace HospitalData.Services
         {
             // Consulta la vista VwPatientActivePrescription
             // IMPORTANTE: Esta vista debe incluir una columna DoctorId o debemos hacer JOIN con Prescriptions
-            
+
             // Si la vista ya incluye DoctorId (recomendado):
             // return await _context.VwPatientActivePrescriptions
             //     .Where(v => v.DoctorId == doctorId)

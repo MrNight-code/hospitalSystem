@@ -7,11 +7,11 @@
 <PageTitle>Mi Agenda</PageTitle>
 
 <Autorizacion RolRequerido="Doctor">
-    
+
     <div class="container-fluid">
         <h1>📅 Mi Agenda</h1>
         <p>Visualiza y gestiona tus citas programadas</p>
-        
+
         <hr />
 
         @if (_cargando)
@@ -109,7 +109,7 @@
                 </div>
             </div>
         }
-        
+
     </div>
 
 </Autorizacion>
@@ -117,7 +117,7 @@
 @code {
     // Lista de citas obtenidas de la vista VwDoctorAgendaSummary
     private List<VwDoctorAgendaSummary>? _citas;
-    
+
     // Estados de carga y errores
     private bool _cargando = true;
     private string? _mensajeError;
@@ -127,16 +127,16 @@
         try
         {
             _cargando = true;
-            
+
             // Obtener el ID del doctor autenticado desde la sesión
             var doctorId = SessionService.CurrentUser?.UserId;
-            
+
             if (doctorId == null)
             {
                 _mensajeError = "No se pudo identificar al doctor autenticado.";
                 return;
             }
-            
+
             // Llamada real al servicio para obtener la agenda del doctor
             _citas = await DoctorService.ObtenerAgendaAsync(doctorId.Value);
         }

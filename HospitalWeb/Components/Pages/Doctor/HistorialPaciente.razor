@@ -9,7 +9,7 @@
 <PageTitle>Historial Clínico</PageTitle>
 
 <Autorizacion RolRequerido="Doctor">
-    
+
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
@@ -20,13 +20,13 @@
                 <i class="bi bi-arrow-left"></i> Regresar
             </button>
         </div>
-        
+
         <hr />
 
         @if (_pacienteId == null)
         {
             <div class="alert alert-warning" role="alert">
-                <i class="bi bi-exclamation-triangle-fill"></i> No se ha especificado un paciente. 
+                <i class="bi bi-exclamation-triangle-fill"></i> No se ha especificado un paciente.
                 <a href="/doctor/buscar-paciente" class="alert-link">Buscar paciente</a>
             </div>
         }
@@ -147,7 +147,7 @@
                 </div>
             </div>
         }
-        
+
     </div>
 
 </Autorizacion>
@@ -232,10 +232,10 @@
 
             // Llamada real al servicio para registrar historial
             await DoctorService.RegistrarHistorialAsync(
-                _pacienteId!.Value, 
-                doctorId.Value, 
-                _nuevoDiagnostico, 
-                _nuevoTratamiento, 
+                _pacienteId!.Value,
+                doctorId.Value,
+                _nuevoDiagnostico,
+                _nuevoTratamiento,
                 _nuevasNotas
             );
 
@@ -243,7 +243,7 @@
             _nuevoDiagnostico = null;
             _nuevoTratamiento = null;
             _nuevasNotas = null;
-            
+
             await CargarDatosPaciente();
         }
         catch (Exception ex)

@@ -7,11 +7,11 @@
 <PageTitle>Prescripciones Activas</PageTitle>
 
 <Autorizacion RolRequerido="Doctor">
-    
+
     <div class="container-fluid">
         <h1>💊 Prescripciones Activas</h1>
         <p>Consulta las prescripciones activas de tus pacientes</p>
-        
+
         <hr />
 
         @* SECCIÓN: FILTROS DE BÚSQUEDA *@
@@ -152,7 +152,7 @@
                 </div>
             </div>
         }
-        
+
     </div>
 
 </Autorizacion>
@@ -160,7 +160,7 @@
 @code {
     // Lista completa de prescripciones
     private List<VwPatientActivePrescription>? _prescripciones;
-    
+
     // Filtros
     private int? _filtroPacienteId;
     private string? _filtroMedicamento;
@@ -170,13 +170,13 @@
     private string? _mensajeError;
 
     // Prescripciones filtradas según criterios
-    private IEnumerable<VwPatientActivePrescription> _prescripcionesFiltradas => 
+    private IEnumerable<VwPatientActivePrescription> _prescripcionesFiltradas =>
         _prescripciones?.Where(p =>
         {
             if (_filtroPacienteId.HasValue && p.PatientId != _filtroPacienteId.Value)
                 return false;
-            
-            if (!string.IsNullOrWhiteSpace(_filtroMedicamento) && 
+
+            if (!string.IsNullOrWhiteSpace(_filtroMedicamento) &&
                 !p.MedicationName.Contains(_filtroMedicamento, StringComparison.OrdinalIgnoreCase))
                 return false;
 
@@ -197,7 +197,7 @@
 
             // Obtener el ID del doctor autenticado
             var doctorId = SessionService.CurrentUser?.UserId;
-            
+
             if (doctorId == null)
             {
                 _mensajeError = "No se pudo identificar al doctor autenticado.";

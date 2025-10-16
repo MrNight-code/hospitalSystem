@@ -10,7 +10,7 @@ namespace HospitalData.Services
     public interface IDoctorService
     {
         // --- GESTIÓN DE AGENDA ---
-        
+
         /// <summary>
         /// Obtiene la agenda de citas de un doctor específico desde la vista VwDoctorAgendaSummary.
         /// </summary>
@@ -19,7 +19,7 @@ namespace HospitalData.Services
         Task<List<VwDoctorAgendaSummary>> ObtenerAgendaAsync(int doctorId);
 
         // --- GESTIÓN DE PACIENTES ---
-        
+
         /// <summary>
         /// Busca pacientes según criterios opcionales (ID, nombre, apellido).
         /// </summary>
@@ -37,7 +37,7 @@ namespace HospitalData.Services
         Task<Patient?> ObtenerPacienteAsync(int pacienteId);
 
         // --- GESTIÓN DE HISTORIAL MÉDICO ---
-        
+
         /// <summary>
         /// Obtiene todo el historial médico de un paciente ordenado por fecha (más reciente primero).
         /// </summary>
@@ -57,7 +57,7 @@ namespace HospitalData.Services
         Task RegistrarHistorialAsync(int pacienteId, int doctorId, string diagnostico, string tratamiento, string? notas);
 
         // --- GESTIÓN DE PRESCRIPCIONES ---
-        
+
         /// <summary>
         /// Obtiene las prescripciones activas de los pacientes atendidos por un doctor específico.
         /// Usa la vista VwPatientActivePrescription.

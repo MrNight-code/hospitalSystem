@@ -8,11 +8,11 @@
 <PageTitle>Buscar Paciente</PageTitle>
 
 <Autorizacion RolRequerido="Doctor">
-    
+
     <div class="container-fluid">
         <h1>🔍 Buscar Paciente</h1>
         <p>Encuentra información de pacientes por nombre, apellido o ID</p>
-        
+
         <hr />
 
         @* SECCIÓN: FORMULARIO DE BÚSQUEDA *@
@@ -101,11 +101,11 @@
                                             <td>@(paciente.Phone ?? "N/A")</td>
                                             <td>@(paciente.Email ?? "N/A")</td>
                                             <td>
-                                                <button class="btn btn-sm btn-primary me-1" 
+                                                <button class="btn btn-sm btn-primary me-1"
                                                         @onclick="() => VerHistorial(paciente.PatientId)">
                                                     <i class="bi bi-file-medical"></i> Historial
                                                 </button>
-                                                <button class="btn btn-sm btn-info" 
+                                                <button class="btn btn-sm btn-info"
                                                         @onclick="() => VerDetalles(paciente.PatientId)">
                                                     <i class="bi bi-eye"></i> Ver
                                                 </button>
@@ -127,7 +127,7 @@
                 <p class="mt-3">Ingresa los criterios de búsqueda y presiona "Buscar"</p>
             </div>
         }
-        
+
     </div>
 
 </Autorizacion>
