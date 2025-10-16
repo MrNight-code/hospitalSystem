@@ -9,75 +9,91 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HospitalWeb
 build_property.RootNamespace = HospitalWeb
-build_property.ProjectDir = /mnt/night_projects/UCB/hospital_system/HospitalWeb/
+build_property.ProjectDir = /mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /mnt/night_projects/UCB/hospital_system/HospitalWeb
+build_property.MSBuildProjectDirectory = /mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb
 build_property._RazorSourceGeneratorDebug = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/App.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/App.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9BcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/CalendarioCitas.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/CalendarioCitas.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9DYWxlbmRhcmlvQ2l0YXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Counter.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Db3VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Error.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Doctor/BuscarPaciente.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Eb2N0b3IvQnVzY2FyUGFjaWVudGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Doctor/HistorialPaciente.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Eb2N0b3IvSGlzdG9yaWFsUGFjaWVudGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Doctor/MiAgenda.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Eb2N0b3IvTWlBZ2VuZGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Doctor/PrescripcionesActivas.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Eb2N0b3IvUHJlc2NyaXBjaW9uZXNBY3RpdmFzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/GestionDoctores.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/GestionDoctores.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9HZXN0aW9uRG9jdG9yZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/GestionInventario.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/GestionInventario.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9HZXN0aW9uSW52ZW50YXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/GestionPacientes.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/GestionPacientes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9HZXN0aW9uUGFjaWVudGVzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Home.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Login.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Mb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Weather.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Pages/Weather.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9XZWF0aGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Routes.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9Sb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Shared/Autorizacion.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Shared/Autorizacion.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9TaGFyZWQvQXV0b3JpemFjaW9uLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/_Imports.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9fSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Layout/MainLayout.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-a77b1ifikg
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Layout/NavMenu.razor]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Components/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-434qiv27jb
 
-[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Pages/_Host.cshtml]
+[/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

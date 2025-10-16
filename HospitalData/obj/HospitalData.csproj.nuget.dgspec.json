@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/mnt/night_projects/UCB/hospital_system/HospitalData/HospitalData.csproj": {}
+    "/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalData/HospitalData.csproj": {}
   },
   "projects": {
-    "/mnt/night_projects/UCB/hospital_system/HospitalData/HospitalData.csproj": {
+    "/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalData/HospitalData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/mnt/night_projects/UCB/hospital_system/HospitalData/HospitalData.csproj",
+        "projectUniqueName": "/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalData/HospitalData.csproj",
         "projectName": "HospitalData",
-        "projectPath": "/mnt/night_projects/UCB/hospital_system/HospitalData/HospitalData.csproj",
+        "projectPath": "/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalData/HospitalData.csproj",
         "packagesPath": "/home/night/.nuget/packages/",
-        "outputPath": "/mnt/night_projects/UCB/hospital_system/HospitalData/obj/",
+        "outputPath": "/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalData/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/night/.nuget/NuGet/NuGet.Config"

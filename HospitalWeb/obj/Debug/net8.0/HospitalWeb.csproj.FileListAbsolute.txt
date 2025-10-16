@@ -71,3 +71,6 @@
 /mnt/night_projects/UCB/hospital_system/HospitalWeb/obj/Debug/net8.0/HospitalWeb.pdb
 /mnt/night_projects/UCB/hospital_system/HospitalWeb/obj/Debug/net8.0/HospitalWeb.genruntimeconfig.cache
 /mnt/night_projects/UCB/hospital_system/HospitalWeb/obj/Debug/net8.0/ref/HospitalWeb.dll
+/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/obj/Debug/net8.0/HospitalWeb.dll
+/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/obj/Debug/net8.0/refint/HospitalWeb.dll
+/mnt/night_projects/UCB/HOSPITAL SYSTEM CESAR/hospitalSystem/HospitalWeb/obj/Debug/net8.0/HospitalWeb.pdb
