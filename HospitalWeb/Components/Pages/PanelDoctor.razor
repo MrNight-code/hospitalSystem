@@ -43,6 +43,33 @@
                 }
             </tbody>
         </table>
+
+        <table class="table table-hover">
+            
+            <thead class="table-light">
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Paciente</th>
+                    <th>Estado</th>
+                    <th>Acciones</th> 
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cita in _agenda)
+                {
+                    <tr>
+                        <td>@cita.AppointmentDate.ToString("dd/MM/yyyy hh:mm tt")</td>
+                        <td>@cita.PatientFirstName @cita.PatientLastName</td>
+                        <td><span class="badge bg-info">@cita.Status</span></td>
+                        <td>
+                            <a href="/cita/@cita.AppointmentId" class="btn btn-sm btn-primary">
+                                Atender
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
 
 </Autorizacion> @* *@

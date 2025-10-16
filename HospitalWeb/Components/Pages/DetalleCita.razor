@@ -1,0 +1,78 @@
+@page "/cita/{AppointmentId:int}"
+@using HospitalData.Models
+@using HospitalData.Services
+@inject IDoctorService DoctorService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Detalle de la Cita</PageTitle>
+
+<Autorizacion RolRequerido="Medico">
+
+    @if (_appointment == null)
+    {
+        <p><em>Cargando detalles de la cita...</em></p>
+    }
+    else
+    {
+        <h3>Atendiendo Cita</h3>
+        <div class="card mb-3">
+            <div class="card-header">
+                <strong>Paciente:</strong> @_appointment.Patient.FirstName @_appointment.Patient.LastName
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Fecha:</strong> @_appointment.AppointmentDate.ToString("g")</li>
+                <li class="list-group-item"><strong>Teléfono:</strong> @_appointment.Patient.Phone</li>
+                <li class="list-group-item"><strong>Estado Actual:</strong> @_appointment.Status</li>
+            </ul>
+        </div>
+
+        <h4>Diagnóstico y Notas</h4>
+        <EditForm Model="this" OnValidSubmit="HandleFinalizarCita">
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <label>Notas del Diagnóstico:</label>
+                <InputTextArea @bind-Value="_diagnosisNotes" class="form-control" rows="5" />
+                <ValidationMessage For="@(() => _diagnosisNotes)" />
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Finalizar Cita</button>
+                <button type="button" class="btn btn-danger" @onclick="HandleCancelarCita">Cancelar Cita</button>
+            </div>
+        </EditForm>
+    }
+
+</Autorizacion>
+
+@code {
+    [Parameter]
+    public int AppointmentId { get; set; }
+
+    private Appointment? _appointment;
+
+    [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Las notas del diagnóstico son obligatorias para finalizar una cita.")]
+    private string _diagnosisNotes = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _appointment = await DoctorService.GetAppointmentDetailsAsync(AppointmentId);
+    }
+
+    private async Task HandleFinalizarCita()
+    {
+        if (_appointment != null)
+        {
+            await DoctorService.CompleteAppointmentAsync(_appointment.AppointmentId, _diagnosisNotes);
+            NavigationManager.NavigateTo("/panel-doctor"); // Volver a la agenda
+        }
+    }
+
+    private async Task HandleCancelarCita()
+    {
+        if (_appointment != null)
+        {
+            await DoctorService.CancelAppointmentAsync(_appointment.AppointmentId);
+            NavigationManager.NavigateTo("/panel-doctor"); // Volver a la agenda
+        }
+    }
+}

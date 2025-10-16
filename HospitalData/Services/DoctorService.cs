@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HospitalData.DTOs;
 
 namespace HospitalData.Services
 {
@@ -15,29 +16,81 @@ namespace HospitalData.Services
             _context = context;
         }
 
-    public async Task<List<VwDoctorAgendaSummary>> GetMyAgendaAsync(int loggedInUserId)
-    {
-        // --- INICIO DEL CAMBIO ---
-
-        // Paso 1: Usar el UserID del login para encontrar al doctor correspondiente en la tabla Doctors.
-        var doctor = await _context.Doctors
-                                .FirstOrDefaultAsync(d => d.UserId == loggedInUserId);
-
-        // Paso 2: Si no encontramos un doctor (por si acaso), devolvemos una lista vacía.
-        if (doctor == null)
+        public async Task<List<VwDoctorAgendaSummary>> GetMyAgendaAsync(int loggedInUserId)
         {
-            return new List<VwDoctorAgendaSummary>(); // No hay doctor, no hay agenda.
+
+            var doctor = await _context.Doctors
+                                    .FirstOrDefaultAsync(d => d.UserId == loggedInUserId);
+
+            if (doctor == null)
+            {
+                return new List<VwDoctorAgendaSummary>();
+            }
+
+            int correctDoctorId = doctor.DoctorId;
+
+
+            return await _context.VwDoctorAgendaSummaries
+                                .Where(cita => cita.DoctorId == correctDoctorId)
+                                .OrderBy(cita => cita.AppointmentDate)
+                                .ToListAsync();
+        }
+        public async Task<Appointment?> GetAppointmentDetailsAsync(int appointmentId)
+        {
+            return await _context.Appointments
+                                .Include(a => a.Patient)
+                                .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId);
         }
 
-        // Paso 3: Ahora que tenemos el DoctorID correcto, lo usamos para filtrar la vista.
-        int correctDoctorId = doctor.DoctorId;
+        public async Task CompleteAppointmentAsync(int appointmentId, string diagnosisNotes)
+        {
+            var appointment = await _context.Appointments.FindAsync(appointmentId);
+            if (appointment == null)
+            {
+                throw new Exception("Cita no encontrada.");
+            }
 
-        // --- FIN DEL CAMBIO ---
+            var historyRecord = new MedicalHistory
+            {
+                PatientId = appointment.PatientId,
+                DoctorId = appointment.DoctorId,
+                Description = diagnosisNotes,
+                VisitDate = DateTime.Now
+            };
+            _context.MedicalHistories.Add(historyRecord);
 
-        return await _context.VwDoctorAgendaSummaries
-                            .Where(cita => cita.DoctorId == correctDoctorId) // <-- Usamos el ID correcto
-                            .OrderBy(cita => cita.AppointmentDate)
-                            .ToListAsync();
-    }
+            appointment.Status = "Completada";
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CancelAppointmentAsync(int appointmentId)
+        {
+            await _context.Database.ExecuteSqlInterpolatedAsync(
+                $"EXEC SP_CancelAppointment @AppointmentID={appointmentId}");
+        }
+        public async Task<List<MedicalHistoryDto>> GetMyMedicalHistoryAsync(int loggedInUserId)
+
+        {
+            var doctor = await _context.Doctors
+                           .FirstOrDefaultAsync(d => d.UserId == loggedInUserId);
+
+            if (doctor == null)
+            {
+                return new List<MedicalHistoryDto>(); 
+            }
+            return await _context.MedicalHistories
+                .Where(mh => mh.DoctorId == doctor.DoctorId) 
+                .OrderByDescending(mh => mh.VisitDate) 
+                .Select(mh => new MedicalHistoryDto 
+                {
+                    HistoryID = mh.HistoryId,
+                    VisitDate = mh.VisitDate,
+                    Description = mh.Description,
+                    PatientFirstName = mh.Patient.FirstName, 
+                    PatientLastName = mh.Patient.LastName
+                })
+                .ToListAsync();
+        }
     }
 }
