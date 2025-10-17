@@ -21,8 +21,6 @@
 
         @if (SessionService.CurrentUser != null)
         {
-            @* --- NUEVO BLOQUE DE CÓDIGO --- *@
-            @* Aquí es donde se añaden los enlaces específicos para cada rol. *@
             @if (SessionService.CurrentUser.RoleName == "Administrativo")
             {
                 <div class="nav-item px-3">
@@ -47,18 +45,21 @@
                     </NavLink>
                 </div>
             }
-            @if (SessionService.CurrentUser.RoleName == "Doctor")
+            @if (SessionService.CurrentUser.RoleName == "Medico")
             {
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="panel-doctor">
                         <span class="bi bi-clipboard2-pulse-fill" aria-hidden="true"></span> Panel Doctor
                     </NavLink>
                 </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="historial-consultas">
+                        <span class="bi bi-archive-fill" aria-hidden="true"></span> Historial
+                    </NavLink>
+                </div>
             }
-            @* --- FIN DEL NUEVO BLOQUE --- *@
 
 
-            @* Se muestra si el usuario HA iniciado sesión *@
             <div class="nav-item px-3">
                 <span class="nav-link text-white">
                     <span class="bi bi-person-circle" aria-hidden="true"></span>
@@ -73,7 +74,6 @@
         }
         else
         {
-            @* Se muestra si NADIE ha iniciado sesión *@
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="login">
                     <span class="bi bi-box-arrow-in-right" aria-hidden="true"></span> Login

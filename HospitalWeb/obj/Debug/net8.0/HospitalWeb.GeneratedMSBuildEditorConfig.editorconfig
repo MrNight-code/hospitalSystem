@@ -30,6 +30,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Db3VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/DetalleCita.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9EZXRhbGxlQ2l0YS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,12 +50,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9HZXN0aW9uUGFjaWVudGVzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/HistorialConsultas.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9IaXN0b3JpYWxDb25zdWx0YXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Mb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/PanelDoctor.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9QYW5lbERvY3Rvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/mnt/night_projects/UCB/hospital_system/HospitalWeb/Components/Pages/Weather.razor]

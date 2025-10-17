@@ -1,0 +1,66 @@
+@page "/historial-consultas"
+@using HospitalData.DTOs
+@using HospitalData.Services
+@inject IDoctorService DoctorService
+@inject UserSessionService SessionService
+
+<PageTitle>Historial de Consultas</PageTitle>
+
+<Autorizacion RolRequerido="Medico">
+
+    <h1>Mi Historial de Consultas</h1>
+    <p>Aquí puede ver un registro de todas sus citas completadas.</p>
+    <hr />
+
+    @if (_historial == null)
+    {
+        <p><em>Cargando historial...</em></p>
+    }
+    else if (!_historial.Any())
+    {
+        <p>No tiene registros en su historial médico.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Paciente</th>
+                    <th>Notas / Diagnóstico</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var registro in _historial)
+                {
+                    <tr>
+                        <td>@registro.VisitDate.ToString("d")</td>
+                        <td>@registro.PatientFirstName @registro.PatientLastName</td>
+                        <td>@registro.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</Autorizacion>
+
+@code {
+    private List<MedicalHistoryDto>? _historial;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (SessionService.CurrentUser?.RoleName == "Medico")
+        {
+            try
+            {
+                int doctorUserId = SessionService.CurrentUser.UserID;
+                _historial = await DoctorService.GetMyMedicalHistoryAsync(doctorUserId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar el historial: {ex.Message}");
+            }
+        }
+    }
+}

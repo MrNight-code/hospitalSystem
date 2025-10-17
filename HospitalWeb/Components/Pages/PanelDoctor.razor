@@ -1,0 +1,95 @@
+@page "/panel-doctor"
+@using HospitalData.Models
+@using HospitalData.Services
+@inject IDoctorService DoctorService
+@inject UserSessionService SessionService
+
+<PageTitle>Mi Panel</PageTitle>
+
+<Autorizacion RolRequerido="Medico">
+    
+    <h1>Mi Agenda de Citas</h1>
+    <p>Aquí puede ver un resumen de sus citas programadas.</p>
+    <hr />
+
+    @if (_agenda == null)
+    {
+        <p><em>Cargando agenda...</em></p>
+    }
+    else if (!_agenda.Any())
+    {
+        <p>No tiene citas pendientes en su agenda.</p>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Paciente</th>
+                    <th>Teléfono del Paciente</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cita in _agenda)
+                {
+                    <tr>
+                        <td>@cita.AppointmentDate.ToString("dd/MM/yyyy hh:mm tt")</td>
+                        <td>@cita.PatientFirstName @cita.PatientLastName</td>
+                        <td>@cita.PatientPhone</td>
+                        <td><span class="badge bg-info">@cita.Status</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table class="table table-hover">
+            
+            <thead class="table-light">
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Paciente</th>
+                    <th>Estado</th>
+                    <th>Acciones</th> 
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cita in _agenda)
+                {
+                    <tr>
+                        <td>@cita.AppointmentDate.ToString("dd/MM/yyyy hh:mm tt")</td>
+                        <td>@cita.PatientFirstName @cita.PatientLastName</td>
+                        <td><span class="badge bg-info">@cita.Status</span></td>
+                        <td>
+                            <a href="/cita/@cita.AppointmentId" class="btn btn-sm btn-primary">
+                                Atender
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</Autorizacion> @* *@
+
+@code {
+    private List<VwDoctorAgendaSummary>? _agenda;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (SessionService.CurrentUser?.RoleName == "Medico")
+        {
+            try
+            {
+                int doctorId = SessionService.CurrentUser.UserID;
+                _agenda = await DoctorService.GetMyAgendaAsync(doctorId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar la agenda del doctor: {ex.Message}");
+            }
+        }
+    }
+}
